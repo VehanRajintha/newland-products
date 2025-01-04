@@ -1,0 +1,18 @@
+# Blender 4.0.2 MTL File: 'None'
+# www.blender.org
+
+newmtl place_holder
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd texture_diffuse.png
+map_Bump -bm 1.000000 texture_normal.png
+map_Pr texture_roughness.png
+map_Pm texture_metallic.png
