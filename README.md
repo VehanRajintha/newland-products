@@ -2,7 +2,7 @@
 
 A modern e-commerce platform showcasing sustainable and eco-friendly products, built with React, TypeScript, and Framer Motion.
 
-![pic1](pic1.jpg)
+![recording](recording.gif)
 
 ## Features
 
