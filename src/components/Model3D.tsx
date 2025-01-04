@@ -11,7 +11,7 @@ interface ModelProps {
 
 const Model3D: React.FC<ModelProps> = ({ scrollProgress = 0 }) => {
   const meshRef = useRef<Group>(null);
-  const model = useLoader(OBJLoader, '/model/base.obj');
+  const model = useLoader(OBJLoader as any, '/model/base.obj');
   const [scale, setScale] = useState(0);
   const [rotation, setRotation] = useState(0);
 
@@ -55,7 +55,7 @@ const Model3D: React.FC<ModelProps> = ({ scrollProgress = 0 }) => {
         const metalnessMap = textureLoader.load('/model/texture_metallic.png');
 
         // Apply materials and textures
-        model.traverse((child) => {
+        model.traverse((child: THREE.Object3D) => {
           if (child instanceof THREE.Mesh) {
             child.material = new THREE.MeshStandardMaterial({
               map: diffuseMap,

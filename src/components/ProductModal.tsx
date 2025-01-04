@@ -1,30 +1,24 @@
-import React, { Suspense, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, PresentationControls } from '@react-three/drei';
-import { Product } from '../types';
+import type { Product } from '../types';
 
 interface ProductModalProps {
   product: Product;
   onClose: () => void;
 }
 
-const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
+const ProductModal = ({ product, onClose }: ProductModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Focus trap
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
       }
     };
 
-    // Focus the modal when it opens
     modalRef.current?.focus();
     document.addEventListener('keydown', handleKeyDown);
-
-    // Prevent body scroll
     document.body.style.overflow = 'hidden';
 
     return () => {
@@ -62,42 +56,54 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
-        
-        <div className="h-64 sm:h-96 mb-6" aria-hidden="true">
-          <Canvas>
-            <Suspense fallback={null}>
-              <ambientLight intensity={0.5} />
-              <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-              <PresentationControls
-                global
-                config={{ mass: 2, tension: 500 }}
-                snap={{ mass: 4, tension: 1500 }}
-                rotation={[0, 0.3, 0]}
-                polar={[-Math.PI / 3, Math.PI / 3]}
-                azimuth={[-Math.PI / 1.4, Math.PI / 2]}
+
+        <div className="flex flex-col md:flex-row gap-8">
+          <div className="w-full md:w-1/2">
+            <div className="relative aspect-square rounded-xl overflow-hidden">
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-full h-full object-cover"
+              />
+              {product.badge && (
+                <span className="absolute top-4 right-4 bg-primary-green text-white px-3 py-1 rounded-full text-sm font-medium">
+                  {product.badge}
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div className="w-full md:w-1/2 space-y-6">
+            <h2 id="modal-title" className="text-2xl sm:text-3xl font-bold text-gray-900">
+              {product.name}
+            </h2>
+            <p className="text-gray-600 text-lg">{product.description}</p>
+            
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-2xl font-bold text-primary-green">
+                  ${product.price}
+                </span>
+                <div className="flex items-center gap-2">
+                  {product.tags.map(tag => (
+                    <span
+                      key={tag}
+                      className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                className="w-full bg-primary-green text-white py-3 rounded-full font-medium hover:shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-green focus:ring-offset-2"
+                onClick={() => {/* Implement add to cart functionality */}}
               >
-                <mesh>
-                  <boxGeometry args={[1, 1, 1]} />
-                  <meshStandardMaterial color={product.color} />
-                </mesh>
-              </PresentationControls>
-              <OrbitControls enableZoom={false} />
-            </Suspense>
-          </Canvas>
-        </div>
-        <h2 id="modal-title" className="text-xl sm:text-2xl font-bold text-primary-green mb-4">{product.name}</h2>
-        <p className="text-gray-600 mb-6 text-sm sm:text-base">{product.description}</p>
-        <div className="flex flex-wrap gap-4 justify-between items-center">
-          <span className="text-2xl sm:text-3xl font-bold text-primary-green" aria-label={`Price: $${product.price}`}>
-            ${product.price}
-          </span>
-          <button 
-            className="bg-primary-green text-white px-6 py-3 rounded-full hover:shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-green focus:ring-offset-2"
-            onClick={() => {/* Implement add to cart functionality */}}
-            aria-label={`Add ${product.name} to cart`}
-          >
-            Add to Cart
-          </button>
+                Add to Cart
+              </button>
+            </div>
+          </div>
         </div>
       </motion.div>
     </motion.div>
