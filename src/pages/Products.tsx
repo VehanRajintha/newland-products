@@ -1,8 +1,6 @@
 import React, { useState, Suspense, lazy, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, PresentationControls } from '@react-three/drei';
-import type { Product, ProductFilters as ProductFiltersType, SortOption } from '../types';
+import type { Product, ProductFilters as ProductFiltersType } from '../types';
 import { products } from '../constants/products';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import LoadingSpinner from '../components/LoadingSpinner';
